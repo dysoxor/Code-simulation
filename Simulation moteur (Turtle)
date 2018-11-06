@@ -1,0 +1,77 @@
+import turtle
+import random
+import time
+import math
+
+wn = turtle.getscreen()
+wn.title("simulation des moteurs")
+turtle.hideturtle()
+
+class Car():
+    def __init__(self):
+        self.angleTot = 0
+        self.vs = 0
+        self.hs = 0
+        self.lastTime = time.time()
+        self.newTime = 0
+        
+        self.cr = turtle.Turtle()
+        self.cr.speed(0)
+
+    def sendcar(self, v, h):
+        self.angleTot += h
+        if self.angleTot >= 360:
+            self.angleTot = self.angleTot - 360
+        self._set(v, h)
+        self.avancer()
+
+    def _getcar(self):
+        return(self.vs, self.hs)
+
+    def _set(self, v, h):
+        self.vs = v
+        self.hs = h
+
+    def avancer(self):
+        if self.hs != 0 and self.vs == 0:
+            self.lastTime = time.time()
+            self.cr.tilt(self.hs)
+            self.cr.setposition(self.cr.xcor(), self.cr.ycor())
+        elif self.hs == 0 and self.vs != 0:
+            self.lastTime = time.time()
+            self.cr.setposition(self.cr.xcor() + (self.vs*math.cos(math.radians(self.angleTot))),self.cr.ycor() + (self.vs*math.sin(math.radians(self.angleTot)))) 
+        elif self.hs != 0 and self.vs != 0:
+            self.newTime = time.time()
+            dt = self.newTime - self.lastTime
+            # print(dt)
+            self.lastTime = self.newTime
+            R = (15*self.vs*dt)/self.hs
+            #print(R)
+            self.cr.tilt(self.hs)
+            if self.hs > 0:
+                self.cr.setposition(self.cr.xcor() + (R*math.cos(math.radians(self.angleTot))), self.cr.ycor() + (R*math.cos(math.radians(self.angleTot))))
+            elif self.hs < 0:
+                self.cr.setposition(self.cr.xcor() + (R*math.cos(math.radians(self.angleTot))), self.cr.ycor() - (R*math.cos(math.radians(self.angleTot))))
+                
+        
+
+class Motor():
+    def __init__(self):
+        self.motorR = turtle.Turtle()
+        self.motorR.speed(0)
+        self.motorR.penup()
+        self.motorR.goto(0, -15.75)
+
+        self.motorL = turtle.Turtle()
+        self.motorL.speed(0)
+        self.motorL.penup()
+        self.motorL.goto(0, 15.75)
+
+car = Car()
+motor = Motor()
+
+while True:
+    car.sendcar(2, 1)
+
+
+wn.mainloop()
