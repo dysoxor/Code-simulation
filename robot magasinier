@@ -289,25 +289,25 @@ class Car():
         self.base.penup()
         self.base.speed(0)
         self.base.resizemode("user")
-        self.base.shapesize(4, 3, outline = 3)
+        self.base.shapesize(7.5, 7.55)
         self.base.goto(-340, 243)
 
         self.capt = turtle.Turtle()
         self.capt.penup()
         self.u = self.base.xcor() - 24
-        self.t = self.base.ycor()-50
+        self.t = self.base.ycor()-75
         self.capt.goto(self.u, self.t)
 
         self.captg = turtle.Turtle()
         self.captg.penup()
         self.v = self.base.xcor() + 24
-        self.w = self.base.ycor() - 50
+        self.w = self.base.ycor() - 75
         self.captg.goto(self.v, self.w)
         
 
-        self.alpha = -25.641
-        self.alphag = 25.641
-        self.r = 55.4616985
+        self.alpha = -17.74467163
+        self.alphag = 17.74467163
+        self.r = 78.74642849
 
 
 
@@ -369,13 +369,14 @@ class Car():
            or (-202<=w<=202 and 338<=v<=342) or (-202<=w<=-198 and 338<=v<=512)\
            or (-202<=w<=202 and 508<=v<=512):
             self.xs = 2
-            print(v, " || ", w)
+            #print(v, " || ", w)
         else:
             self.xs = 0
         if self.hs != 0 and self.vs == 0:
             self.lastTime = time.time()
             self.base.tilt(self.hs)
-            self.base.setposition(self.base.xcor(), self.base.ycor())
+            self.base.setposition(self.base.xcor()+16*math.sin(math.radians(self.hs)), self.base.ycor()+ 16 - 16*math.cos(math.radians(self.hs)))
+            #print(16*math.sin(math.radians(self.hs)), " et ", 16 - 16*math.cos(math.radians(self.hs)))
             
         elif self.hs == 0 and self.vs != 0:
             self.lastTime = time.time()
@@ -417,18 +418,18 @@ while True:
         car.sendcar(car.xs, car.ys, 2, 0)
     while car.xs == 1:
         i = 0
-        while i < 25:
+        while i < 35:
             i+=1
             car.sendcar(car.xs, car.ys, 2, 0)
-        while i<70:
+        while i<80:
             i+=1
             car.sendcar(car.xs, car.ys, 0, -2)
     while car.xs == 2:
         i = 0
-        while i < 25:
+        while i < 35:
             i += 1
             car.sendcar(4, car.ys, 2, 0)
-        while i < 70:
+        while i < 80:
             i+=1
             car.sendcar(4, car.ys, 0, 2)
     
