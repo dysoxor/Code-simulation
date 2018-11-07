@@ -1,4 +1,4 @@
-import turtle
+import turtle 
 import random
 import math
 import time
@@ -6,19 +6,21 @@ import time
 #--------------- crée la fenêtre ----------------------------
 
 wn = turtle.getscreen()
-wn.setup(1200, 600)
-wn.title("simulation du robot magasinier")
-turtle.speed(0)
-turtle.hideturtle()
+wn.setup(1200, 600) # dimension de la fenêtre
+wn.title("simulation du robot magasinier") # titre de la fenêtre
+turtle.speed(0) # 0 est la vitesse maximale
+turtle.hideturtle() # permet de cacher la turtle généré en créant la fenêtre
 
-#--------------- Texte indicateur ---------------------------
-ind_1 = turtle.Turtle()
-ind_1.hideturtle()
-ind_1.speed(0)
-ind_1.color("white")
-ind_1.goto(515, 280)
-ind_1.color("green")
-ind_1.write("vert: petit")
+#--------------- Textes indicateurs ---------------------------
+
+ind_1 = turtle.Turtle() # on crée un objet turtle
+ind_1.hideturtle() # on cache le trutle (la petite flèche)
+ind_1.speed(0) # vitesse maximale pour afficher le texte
+ind_1.penup() # on soulève le turtle pour qu'il ne laisse pas de trace quand
+# on le déplace
+ind_1.goto(515, 280) # on déplace le turtle à la coordonnée indiquée (x,y)
+ind_1.color("green") # on donne une couleur au texte
+ind_1.write("vert: petit") # on donne le texte à écrire
 
 ind_2 = turtle.Turtle()
 ind_2.hideturtle()
@@ -59,12 +61,16 @@ def zone_depot():
     pen = turtle.Turtle()
     pen.hideturtle()
     pen.speed(0)
-    pen.color("white")
+    pen.penup()
     pen.goto(-400, -300)
-    pen.pensize(5)
+    pen.pensize(5) # l'épaisseur du turtle (5 pixels), on peut réduire si on
+    # veut une route plus fine
+    pen.pendown() # on avait soulevé le stylo pour qu'il ne laisse pas trace
+    # derrière lui, maintenant on le repose pour qu'il dessine
     pen.color("black")
-    pen.left(90)
-    pen.fd(300)
+    pen.left(90) # on tourne le turtle de 90 degrés vers la gauche (-90 pour
+    # tourner à droite
+    pen.fd(300) # on dessine de 300 pixel vers l'avant du turtle
     pen.left(90)
     pen.fd(200)
     pen.left(180)
@@ -74,13 +80,14 @@ def zone_depot():
 
 
 def chemin():
-    """dessine le chemin au centre"""
+    """dessine le chemin à suivre"""
     pen = turtle.Turtle()
     pen.hideturtle()
     pen.speed(0)
-    pen.color("white")
+    pen.penup()
     pen.goto(-340,200)
     pen.pensize(5)
+    pen.pendown()
     pen.color("black")
     pen.left(-90)
     pen.fd(400)
@@ -104,98 +111,36 @@ def chemin():
     pen.fd(170)
     pen.left(90)
     pen.fd(400)
-
-
-"""def pvc(i, x, y):
-    "dessine les tube de pvc dans leur place adequate"
-    if i == 0:
-        petit_1 = turtle.Turtle()
-        petit_1.shape("circle")
-        petit_1.color("green")
-        petit_1.penup()
-        petit_1.speed(0)
-        petit_1.goto(x,y)
-    elif i == 1:
-        petit_2 = turtle.Turtle()
-        petit_2.shape("circle")
-        petit_2.color("green")
-        petit_2.penup()
-        petit_2.speed(0)
-        petit_2.goto(x,y)
-    elif i == 2:
-        moyen_1 = turtle.Turtle()
-        moyen_1.shape("circle")
-        moyen_1.color("red")
-        moyen_1.penup()
-        moyen_1.speed(0)
-        moyen_1.goto(x,y)
-    elif i == 3:
-        moyen_2 = turtle.Turtle()
-        moyen_2.shape("circle")
-        moyen_2.color("red")
-        moyen_2.penup()
-        moyen_2.speed(0)
-        moyen_2.goto(x,y)
-    elif i == 4:
-        grand_1 = turtle.Turtle()
-        grand_1.shape("circle")
-        grand_1.color("blue")
-        grand_1.penup()
-        grand_1.speed(0)
-        grand_1.goto(x,y)
-    elif i == 5:
-        grand_2 = turtle.Turtle()
-        grand_2.shape("circle")
-        grand_2.color("blue")
-        grand_2.penup()
-        grand_2.speed(0)
-        grand_2.goto(x,y)
-    
-
-
-def places_pvc(fioles):
-    "determine la place à prendre pour chacune des fioles"
-    for i in range(6):
-        x, y = 0, 0
-        if fioles[i]%2 == 1:
-            y = 100
-        else:
-            y = -100
-        if fioles[i] == 1 or fioles[i] == 2:
-            x = - 340
-        elif fioles[i] == 3 or fioles[i] == 4:
-            x = - 170
-        elif fioles[i] == 5 or fioles[i] == 6:
-            x = 0
-        elif fioles[i] == 7 or fioles[i] == 8:
-            x = 170
-        elif fioles[i] == 9 or fioles[i] == 10:
-            x = 340
-        elif fioles[i] == 11 or fioles[i] == 12:
-            x = 510
-        pvc(i, x, y)"""
     
     
     
 
 def arena():
     """crée l'arène"""
-    zone_depot()
-    chemin()
-    #places_pvc(fioles)
+    zone_depot() # appelle la fonction qui dessine la zone de dépot
+    chemin() # appelle la fonction qui dessine la route
 
 class Pvc():
+    """on a crée la classe Pvc pour pouvoir crée des intéractions plus
+    simplement avec la classe voiture et ainsi les déplacer (on n'a pas encore
+    crée d'intéractions)"""
     def __init__(self):
-        places = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] 
-        fioles = random.Random().sample(places, 6)
-        self.loc = []
+        """on initialise la classe Pvc, c'est à dire que ce qui suit sera
+        executé lorsqu'on crée un objet pvc"""
+        places = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] # liste de numéro de
+        # places possible
+        fioles = random.Random().sample(places, 6) # on prend 6 numéro
+        # aléatoirement de la liste précédente
         for i in range(6):
+            # on détermine la place de chaque numéro et on y dessine un cylindre
             x, y = 0, 0
             if fioles[i]%2 == 1:
-                y = 100
+                y = 100 # un numéro impaire a un y == 100
             else:
-                y = -100
-            if fioles[i] == 1 or fioles[i] == 2:
+                y = -100 # un numéro paire a un y == -100
+            if fioles[i] == 1 or fioles[i] == 2: # si le numéro est soit 1 soit
+                # 2 sa place est en x = -340 (première ligne verticale du
+                # chemin
                 x = - 340
             elif fioles[i] == 3 or fioles[i] == 4:
                 x = - 170
@@ -207,9 +152,7 @@ class Pvc():
                 x = 340
             elif fioles[i] == 11 or fioles[i] == 12:
                 x = 510
-            #self.loc[i:i] = tuple(x, y)
-            #print(self.loc)
-            if i == 0:
+            if i == 0: # les 2 premiers de la liste sont des petits cylindres
                 petit_1 = turtle.Turtle()
                 petit_1.shape("circle")
                 petit_1.color("green")
@@ -223,7 +166,7 @@ class Pvc():
                 petit_2.penup()
                 petit_2.speed(0)
                 petit_2.goto(x,y)
-            elif i == 2:
+            elif i == 2: # les 2 suivant sont des moyens cylindres
                 moyen_1 = turtle.Turtle()
                 moyen_1.shape("circle")
                 moyen_1.color("red")
@@ -237,7 +180,7 @@ class Pvc():
                 moyen_2.penup()
                 moyen_2.speed(0)
                 moyen_2.goto(x,y)
-            elif i == 4:
+            elif i == 4: # les 2 derniers sont des grands cylindres
                 grand_1 = turtle.Turtle()
                 grand_1.shape("circle")
                 grand_1.color("blue")
@@ -255,71 +198,59 @@ class Pvc():
         
 
 class Car():
+    """on crée une classe Car qu'on peut déplacer en dehors de la classe
+    avec l'atribut sendcar"""
     def __init__(self):
-        
-        """chenille_1 = turtle.Turtle()
-        chenille_1.shape("square")
-        chenille_1.color("pink")
-        chenille_1.penup()
-        chenille_1.speed(0)
-        chenille_1.resizemode("user")
-        chenille_1.shapesize(3.4, 1.2, outline = 8)
-        chenille_1.goto(-367,243)
-
-        chenille_2 = turtle.Turtle()
-        chenille_2.shape("square")
-        chenille_2.color("pink")
-        chenille_2.penup()
-        chenille_2.speed(0)
-        chenille_2.resizemode("user")
-        chenille_2.shapesize(3.4, 1.2, outline = 8)
-        chenille_2.goto(-313,243)"""
-        self.xs = 0
-        self.ys = 0
-        self.vs = 0
-        self.hs = 0
-        self.angleTot = 0
-        self.lastTime = time.time()
-        self.newTime = 0
+        """on initialise la classe Car"""
+        self.xs = 0 # pour nos capteurs de ligne noir
+        self.ys = 0 # plus tard, pour le capteur d'obstacle
+        self.vs = 0 # vitesse de la voiture
+        self.hs = 0 # vitesse angulaire de la voiture
+        self.angleTot = 0 # angle totale parcourue par la voiture
+        self.lastTime = time.time() # temps actuel
+        self.newTime = 0 # permetra plus tard de calculer dt
         
 
-        self.base = turtle.Turtle()
+        self.base = turtle.Turtle() # c'est notre chassis
         self.base.shape("square")
         self.base.color("pink")
         self.base.penup()
         self.base.speed(0)
-        self.base.resizemode("user")
-        self.base.shapesize(7.5, 7.55)
+        self.base.resizemode("user") # on indique quelle méthode de
+        # redimensionnement on veut utiliser, avec 'user' on peut changer la
+        # longueur et la largeur du carré comme on veut
+        self.base.shapesize(7.5, 7.55) # la taille de carré initial est de 20
+        # pixels si on a envie d'atteindre une hauteur de 40 et une longueur de
+        # 60 on fera shapesize(2,3) car on étire, ! c'est bien shapesize(y,x)
         self.base.goto(-340, 243)
 
-        self.capt = turtle.Turtle()
+        self.capt = turtle.Turtle() # capteur à droite de la voiture
         self.capt.penup()
         self.u = self.base.xcor() - 24
         self.t = self.base.ycor()-75
         self.capt.goto(self.u, self.t)
 
-        self.captg = turtle.Turtle()
+        self.captg = turtle.Turtle() # capteur à gauche de la voiture
         self.captg.penup()
         self.v = self.base.xcor() + 24
         self.w = self.base.ycor() - 75
         self.captg.goto(self.v, self.w)
         
 
-        self.alpha = -17.74467163
-        self.alphag = 17.74467163
-        self.r = 78.74642849
+        self.alpha = -17.74467163 # angle entre la droite passant par le centre
+        # de la voiture verticalement et la droite passant par le centre de
+        # la voiture et le capteur de droite
+        self.alphag = 17.74467163 # même chose pour celui de gauche (le signe
+        # est juste inversé
+        self.r = 78.74642849 # distance entre le centre de la voiture et un
+        # capteur
 
-
-
-
-        """while True:
-            base.sety(base.ycor()-1)
-            # chenille_1.sety(chenille_1.ycor()-1)
-            # chenille_2.sety(chenille_2.ycor()-1)"""
         
         
     def sendcar(self, x, y, v, h):
-        self.angleTot += h
+        """ceci est la méthode sendcar, c'est elle qu'on appelle ci on veut
+        lancer le processus de déplacement"""
+        self.angleTot += h 
         self.alpha += h
         self.alphag += h
         if self.angleTot >= 360:
@@ -328,15 +259,15 @@ class Car():
         self.avancer()
 
     def _getcar(self):
+        """renvoie le tuple (x, y, v, h)"""
         return(self.xs, self.ys, self.vs, self.hs)
 
     def _set(self, x, y, v, h):
-        #v = (self.base.ycor() - math.cos(math.radians(self.angleTot)))
+        """actualise le tuple (x, y, v, h)"""
         self.xs = x
         self.ys = y
         self.vs = v
         self.hs = h
-        self.constr = 1
 
     def avancer(self):
         u = self.base.xcor()+self.r*math.sin(math.radians(self.alpha))
@@ -344,16 +275,16 @@ class Car():
         v = self.base.xcor()+self.r*math.sin(math.radians(self.alphag))
         w = self.base.ycor()-self.r*math.cos(math.radians(self.alphag))
         
-        self.capt.goto(u, t)
-        self.captg.goto(v, w)
-        if self.xs == 4:
-            self.xs = 0
-        elif (-202<=t<=202 and -342<=u<=-338) or (-202<=t<=-198 and -342<=u<=-168)\
+        self.capt.goto(u, t) # nouvelle position du capteur de droite en
+        # fonction du déplacement de la voiture de sorte à rester à sa place
+        self.captg.goto(v, w)# même chose por le capteur gauche
+        if (-202<=t<=202 and -342<=u<=-338) or (-202<=t<=-198 and -342<=u<=-168)\
            or (-202<=t<=202 and -172<=u<=-168) or (198<=t<=202 and -172<=u<=2)\
            or (-202<=t<=202 and -2<=u<=2) or (-202<=t<=-198 and -2<=u<=172)\
            or (-202<=t<=202 and 168<=u<=172) or (198<=t<=202 and 168<=u<=342)\
            or (-202<=t<=202 and 338<=u<=342) or (-202<=t<=-198 and 338<=u<=512)\
            or (-202<=t<=202 and 508<=u<=512):
+            # si le capteur de droite détecte la ligne xs vaut 1
             self.xs = 1
             if (-202<=w<=202 and -342<=v<=-338) or (-202<=w<=-198 and -342<=v<=-168)\
                or (-202<=w<=202 and -172<=v<=-168) or (198<=w<=202 and -172<=v<=2)\
@@ -361,6 +292,7 @@ class Car():
                or (-202<=w<=202 and 168<=v<=172) or (198<=w<=202 and 168<=v<=342)\
                or (-202<=w<=202 and 338<=v<=342) or (-202<=w<=-198 and 338<=v<=512)\
                or (-202<=w<=202 and 508<=v<=512):
+                # si le capteur de droite et de gauche detectent la ligne
                 self.xs = 3
         elif (-202<=w<=202 and -342<=v<=-338) or (-202<=w<=-198 and -342<=v<=-168)\
            or (-202<=w<=202 and -172<=v<=-168) or (198<=w<=202 and -172<=v<=2)\
@@ -369,39 +301,39 @@ class Car():
            or (-202<=w<=202 and 338<=v<=342) or (-202<=w<=-198 and 338<=v<=512)\
            or (-202<=w<=202 and 508<=v<=512):
             self.xs = 2
-            #print(v, " || ", w)
+            # si uniquement le capteur ganche detecte la ligne
         else:
+            # si aucun des 2 ne detecte la ligne
             self.xs = 0
+            
         if self.hs != 0 and self.vs == 0:
+            # si l'angle envoyé à la voiture est non nulle et la vitesse est
+            # nulle
             self.lastTime = time.time()
-            self.base.tilt(self.hs)
+            self.base.tilt(self.hs) # tourne sur lui même
             self.base.setposition(self.base.xcor()+16*math.sin(math.radians(self.hs)), self.base.ycor()+ 16 - 16*math.cos(math.radians(self.hs)))
-            #print(16*math.sin(math.radians(self.hs)), " et ", 16 - 16*math.cos(math.radians(self.hs)))
+            # déplace le centre car la voiture tourne autour d'un centre de
+            # rotation différent du centre de la voiture
             
         elif self.hs == 0 and self.vs != 0:
+            # si la vitesse angulaire est nulle et la vitesse est non nulle
             self.lastTime = time.time()
             self.base.setposition(self.base.xcor() + (self.vs*math.sin(math.radians(self.angleTot))),self.base.ycor() - (self.vs*math.cos(math.radians(self.angleTot)))) 
-            # self.base.sety(self.base.ycor() - (self.vs*math.cos(self.angleTot)))
-            # self.base.setx(self.base.xcor() + (self.vs*math.sin(self.angleTot)))
+            
         elif self.hs != 0 and self.vs != 0:
+            # si la vitesse et la vitesse angulaire sont non nulle
             self.newTime = time.time()
-            dt = self.newTime - self.lastTime
-            # print(dt)
+            dt = self.newTime - self.lastTime # temps écoulé depuis le dernier
+            # calcul
             self.lastTime = self.newTime
-            R = (15*self.vs*dt)/self.hs
-            # print(R)
+            R = (15*self.vs*dt)/self.hs # rayon du cercle que réaliserait la
+            # voiture si on envoie une vitesse et un angle h
             self.base.tilt(self.hs)
             if self.hs > 0:
                 self.base.setposition(self.base.xcor() + (R*math.sin(math.radians(self.angleTot))), self.base.ycor() - (R*math.cos(math.radians(self.angleTot))))
             elif self.hs < 0:
                 self.base.setposition(self.base.xcor() - (R*math.sin(math.radians(self.angleTot))), self.base.ycor() + (R*math.cos(math.radians(self.angleTot))))
-                # print("x: ", (R*math.sin(math.radians(self.angleTot))), "et y: ", -(R*math.cos(math.radians(self.angleTot))), "angle: ", self.angleTot)
-        #iter(self.avancer())
                 
-
-
-    
-
 
         
         
@@ -410,8 +342,8 @@ class Car():
 
 
 arena() # crée l'arène sur la fenêtre
-pvc = Pvc()
-car = Car()
+pvc = Pvc() # crée l'ensemble des 6 pvc
+car = Car() # crée l'objet car
 
 while True:
     while car.xs == 0:
@@ -428,10 +360,10 @@ while True:
         i = 0
         while i < 35:
             i += 1
-            car.sendcar(4, car.ys, 2, 0)
+            car.sendcar(car.xs, car.ys, 2, 0)
         while i < 80:
             i+=1
-            car.sendcar(4, car.ys, 0, 2)
+            car.sendcar(car.xs, car.ys, 0, 2)
     
     
 
